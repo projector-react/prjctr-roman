@@ -1,16 +1,16 @@
 interface IUser {
-    id: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phoneNumber: string;
-    subscribed: boolean;
-    subscribeExpireDate: string | null;
+    readonly id: string;
+    readonly lastName: string;
+    readonly firstName: string;
+    readonly email: string;
+    readonly phoneNumber: string;
+    readonly subscribed: boolean;
+    readonly subscribeExpireDate: Date | null;
 }
 
 interface IAuthService {
-    user: IUser;
-    isLoggedIn: boolean;
+    readonly user: IUser;
+    readonly isLoggedIn: boolean;
 
     login: () => void;
     setUser: (user: IUser) => void

@@ -9,9 +9,9 @@ interface IVideo {
     readonly id: string;
     readonly category: Category;
     readonly source: string;
-    readonly publicationDate: string;
+    readonly releaseDate: Date;
     readonly name: string;
-    readonly viewAccess: '';
+    readonly viewAccess: Subscription;
     readonly lectors: Lector[];
     readonly previewImage: string;
     readonly categoryList: Category[];
