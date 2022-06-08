@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Library } from "./components/Library";
+import { searchService } from './composition-root'
 
 export const App: React.FC = () => {
-    const [name, setName] = useState('worlddd');
-    return (
-        <>
-            <input value={name} onChange={e => setName(e.target.value)} />
-            <h1>Hello, {name}!</h1>
-        </>
-    );
+    return <Library appState={searchService} />
 };
