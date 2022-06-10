@@ -1,11 +1,11 @@
-interface ILector {
+interface Lector {
     readonly name: string;
     readonly keyword: string;
     readonly position: string;
     readonly company: string;
 }
 
-interface IVideo {
+interface Video {
     readonly id: string;
     readonly category: Category;
     readonly source: string;

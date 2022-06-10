@@ -1,6 +1,6 @@
 enum VideoGroupType {
-    FEATURED = 'featured',
-    DEFAULT = 'default'
+    FEATURED = 'FEATURED',
+    DEFAULT = 'DEFAULT'
 }
 
 interface VideoGroup {

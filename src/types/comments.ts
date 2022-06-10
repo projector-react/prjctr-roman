@@ -1,5 +1,5 @@
 enum CommentType {
-    DEFAULT= 'Default',
+    DEFAULT= 'DEFAULT',
     Linked = 'Linked'
 }
 
