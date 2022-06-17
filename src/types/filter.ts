@@ -1,57 +1,57 @@
-enum Subscription {
+export enum Subscription {
     FREE = 'FREE',
     PAYED = 'PAYED'
 }
 
-enum Category {
+export enum Category {
     ALL = 'ALL',
     POPULAR = 'POPULAR',
     RESTREAM = 'RESTREAM',
-    WITHOUT_PAYMENT = 'WITHOUT_PAYMENT',
+    WITHOUT_PAYMENT = 'WITHOUT PAYMENT',
     FAVORITE = 'FAVORITE',
     HISTORY = 'HISTORY'
 }
 
-enum Direction {
+export enum Direction {
     ALL = 'ALL',
-    INTERFACE_DESIGN = 'INTERFACE_DESIGN',
+    INTERFACE_DESIGN = 'INTERFACE DESIGN',
     GRAPHICS = 'GRAPHICS',
-    DEV_DATASCIENCE = 'DEV_DATASCIENCE',
+    DEV_DATASCIENCE = 'DEV DATA & SCIENCE',
     MARKETING = 'MARKETING',
     MANAGEMENT = 'MANAGEMENT',
     HUMANUTARIUM = 'HUMANUTARIUM',
     ADVERTISING = 'ADVERTISING'
 }
 
-enum Format {
+export enum Format {
     ALL = 'ALL',
-    VIDEO_LESSON = 'VIDEO_LESSON',
+    VIDEO_LESSON = 'VIDEO LESSON',
     CONFERENCE = 'CONFERENCE',
     TUTORIAL = 'TUTORIAL',
     INTERVIEW = 'INTERVIEW'
 }
 
-enum Level {
+export enum Level {
     ANY = 'ANY',
     BEGINNER = 'BEGINNER',
     SPECIALIST = 'SPECIALIST',
 }
 
-interface SearchResult {
-    readonly data: []
+export interface SearchResult {
+    readonly data: string[]
     readonly totalCount: number
 }
 
-interface FilterParamsState {
-    readonly category: Category;
-    readonly direction: Direction;
-    readonly format: Format;
-    readonly level: Level;
-    readonly query: string;
-    readonly page: number;
+export interface FilterParamsState {
+    readonly category: Category,
+    readonly direction: Direction,
+    readonly format: Format,
+    readonly level: Level,
+    readonly query: string,
+    readonly page: number
 }
 
-interface FilterParamsService {
+export interface FilterParamsActions {
     readonly setCategory: (category: Category) => void
     readonly setDirection: (direction: Direction) => void
     readonly setFormat: (format: Format) => void
@@ -61,15 +61,18 @@ interface FilterParamsService {
     readonly reset: () => void
 }
 
-interface FilterResultState {
+export interface FilterResultState {
     readonly result: SearchResult;
 }
 
-interface FilterResultService {
-    readonly setResult: (result: SearchResult) => SearchResult
+export interface FilterResultActions {
+    readonly setResult: (result: SearchResult) => void
 }
 
-interface FilterService {
+export interface FilterService {
+    filterParamsState: FilterParamsState
+    filterResultActions: FilterResultActions
+
     readonly filter: () => Promise<void>
 }
 
