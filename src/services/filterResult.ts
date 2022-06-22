@@ -1,5 +1,6 @@
 import { makeObservable, observable, action } from "mobx";
-import { FilterResultActions, FilterResultState, SearchResult } from "../types/filter";
+import { SearchResult } from "../types/filter/filter";
+import { FilterResultActions, FilterResultState } from "../types/filter/filter-data-access";
 
 export default class FilterResult implements FilterResultState, FilterResultActions {
     result = {

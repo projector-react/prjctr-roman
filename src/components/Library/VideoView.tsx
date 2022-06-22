@@ -1,10 +1,11 @@
 import React from "react";
-import { FilterResultState } from "../../types/filter";
+import { SearchResult } from "../../types/filter/filter";
 
-export const VideoView = ({ result }: FilterResultState) => {
+export const VideoView = ({ data, totalCount }: SearchResult) => {
     return (
         <div>
-            Video Search State: {Object.values(result.data).join(', ')}
+            Video Search State: {Object.values(data).join(', ')}
+            Video Search Pages: {totalCount}
         </div>
     );
 };

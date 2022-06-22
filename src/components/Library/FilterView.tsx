@@ -1,7 +1,6 @@
 import React from 'react';
-import { Category, Direction, FilterParamsActions, FilterParamsState, Format, Level } from "../../types/filter";
-
-type FilterViewProps = FilterParamsState & FilterParamsActions
+import { Category, Direction, Format, Level } from "../../types/filter/filter";
+import { FilterViewProps } from "../../types/filter/filter-business";
 
 export const FilterView = ({
        category,
