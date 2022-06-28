@@ -1,9 +1,8 @@
 import { makeAutoObservable } from "mobx";
-import { Category, Direction, Format, Level } from "../types/filter/filter";
-import { FilterParamsActions, FilterParamsState } from "../types/filter/filter-data-access";
+import { Category, Direction, Format, Level } from "../types/filter";
+import { FilterParamsService } from "../contexts/filterParams";
 
-
-export default class FilterParams implements FilterParamsState, FilterParamsActions {
+export default class FilterParams implements FilterParamsService {
     category: Category = Category.ALL
     direction: Direction = Direction.ALL
     format: Format = Format.ALL

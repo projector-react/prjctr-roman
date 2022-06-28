@@ -1,6 +1,9 @@
 import { makeObservable, observable, reaction, action } from "mobx";
-import { SearchResult } from "../types/filter/filter";
-import { FilterParamsState, FilterResultActions, FilterService } from "../types/filter/filter-data-access";
+import { SearchResult } from "../types/filter";
+
+import { FilterService } from "../contexts/filter";
+import { FilterParamsState } from "../contexts/filterParams";
+import { FilterResultActions } from "../contexts/filterResult";
 
 export default class Filter implements FilterService {
     filterParamsState;
