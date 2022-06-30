@@ -1,22 +1,23 @@
 import React, { useContext, ReactNode } from "react"
-import { myContainer } from "../composition-root";
+import { DIContext } from "../composition-root";
 
 type FilterParamsType = {
     children: ReactNode;
 };
 
-const { FilterParamsContext } = myContainer
-
 export const FilterParamsProvider = ({ children }: FilterParamsType) => {
-    const service = useFilterParamsService()
+    const { FilterParamsContext } = useContext(DIContext)
+    const filterParams = useContext(FilterParamsContext)
+
     return (
-        <FilterParamsContext.Provider value={service}>
+        <FilterParamsContext.Provider value={filterParams}>
             {children}
         </FilterParamsContext.Provider>
     )
 }
 
 export const useFilterParamsService = () => {
+    const { FilterParamsContext } = useContext(DIContext)
     const context = useContext(FilterParamsContext)
     if (!context) {
         throw Error('You can\'t use filter params service context without Provider')

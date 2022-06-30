@@ -1,3 +1,4 @@
+import React from "react";
 import { makeObservable, observable, reaction, action } from "mobx";
 
 import { FilterParamsState } from "./filterParams";
@@ -8,6 +9,10 @@ export interface FilterService {
     filterResultActions: FilterResultActions
 
     readonly filter: () => Promise<void>
+}
+
+export function createFilterContext (filterService: FilterService) {
+    return React.createContext(filterService)
 }
 
 export default class Filter implements FilterService {

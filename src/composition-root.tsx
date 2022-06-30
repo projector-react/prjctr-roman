@@ -1,71 +1,44 @@
 import React, { Context, ReactNode, useContext } from "react";
 
-import FilterParams, { FilterParamsService } from "./services/filterParams";
-import FilterResult, { FilterResultService } from "./services/filterResult";
-import Filter, { FilterService } from "./services/filter";
+import FilterParams, { FilterParamsService, createFilterParamsContext } from "./services/filterParams";
+import FilterResult, { FilterResultService, createFilterResultContext } from "./services/filterResult";
+import Filter, { FilterService, createFilterContext } from "./services/filter";
 
 type FilterResultType = {
     children: ReactNode;
 };
 
-interface AppServiceProvider {
-    filterParams: FilterParamsService;
-    filterResult: FilterResultService;
-    filter: FilterService;
+interface DIProvider {
+    FilterParamsContext: Context<FilterParamsService>;
+    FilterResultContext: Context<FilterResultService>;
+    FilterContext: Context<FilterService>;
 }
 
 export const filterParams = new FilterParams()
 export const filterResult = new FilterResult()
 export const filterService = new Filter(filterParams, filterResult)
 
-const FilterParamsContext = createFilterParamsContext(filterParams)
-const FilterResultContext = createFilterResultContext(filterResult)
-const FilterContext = createFilterContext(filterService);
+const FilterParamsContext: Context<FilterParamsService> = createFilterParamsContext(filterParams)
+const FilterResultContext: Context<FilterResultService> = createFilterResultContext(filterResult)
+const FilterContext: Context<FilterService> = createFilterContext(filterService);
 
-function createFilterParamsContext (filterParamsService: FilterParamsService) {
-    return React.createContext(filterParamsService)
-}
-
-function createFilterResultContext (filterResultService: FilterResultService) {
-    return React.createContext(filterResultService)
-}
-
-function createFilterContext (filterService: FilterService) {
-    return React.createContext(filterService)
-}
-
-const services = createAppServices(FilterParamsContext, FilterResultContext, FilterContext)
-
-const AppContext = React.createContext<AppServiceProvider>(services)
-const AppProvider = AppServiceProvider(AppContext)
-
-function AppServiceProvider (context: Context<AppServiceProvider>) {
+function createDIProvider (Context: Context<DIProvider>) {
+    const container = useContext(Context)
     return function ({ children }: FilterResultType) {
-        return <context.Provider value={services}>
+        return <Context.Provider value={container}>
             {children}
-        </context.Provider>
+        </Context.Provider>
     }
 }
 
-function createAppServices (
-    FilterParamsContext: Context<FilterParamsService>,
-    FilterResultContext: Context<FilterResultService>,
-    FilterContext: Context<FilterService>
-) {
-    return {
-        filterParams: useContext(FilterParamsContext),
-        filterResult: useContext(FilterResultContext),
-        filter: useContext(FilterContext)
-    }
-}
-
-const myContainer = {
+const container = {
     FilterParamsContext,
     FilterResultContext,
-    FilterContext,
-    AppProvider,
-    AppContext
+    FilterContext
 }
 
-export { myContainer }
+const DIContext = React.createContext<DIProvider>(container)
+const DIProvider = createDIProvider(DIContext)
+
+export { DIContext, DIProvider }
 

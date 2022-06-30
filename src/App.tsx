@@ -1,11 +1,11 @@
 import React from 'react';
+import { DIProvider } from "./composition-root";
 import { Library } from "./components/Library/Library";
-import { myContainer } from "./composition-root";
 
 export const App: React.FC = () => {
     return (
-        <myContainer.AppProvider>
+        <DIProvider>
             <Library />
-        </myContainer.AppProvider>
+        </DIProvider>
     );
 };

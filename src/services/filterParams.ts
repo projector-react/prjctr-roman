@@ -1,3 +1,4 @@
+import React from "react";
 import { makeAutoObservable } from "mobx";
 import { Category, Direction, Format, Level } from "../types/filter";
 
@@ -21,6 +22,10 @@ export interface FilterParamsActions {
 }
 
 export type FilterParamsService = FilterParamsState & FilterParamsActions
+
+export function createFilterParamsContext (filterParamsService: FilterParamsService) {
+    return React.createContext(filterParamsService)
+}
 
 export default class FilterParams implements FilterParamsService {
     category: Category = Category.ALL
