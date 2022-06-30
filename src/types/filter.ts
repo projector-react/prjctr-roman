@@ -36,8 +36,3 @@ export enum Level {
     BEGINNER = 'BEGINNER',
     SPECIALIST = 'SPECIALIST',
 }
-
-export interface SearchResult {
-    readonly data: string[]
-    readonly totalCount: number
-}

@@ -1,36 +1,14 @@
 import React, { useContext, ReactNode } from "react"
-import { filterParams } from "../composition-root";
-import { Category, Direction, Format, Level } from "../types/filter";
+import { myContainer } from "../composition-root";
 
 type FilterParamsType = {
     children: ReactNode;
 };
 
-export interface FilterParamsState {
-    readonly category: Category,
-    readonly direction: Direction,
-    readonly format: Format,
-    readonly level: Level,
-    readonly query: string,
-    readonly page: number
-}
-
-export interface FilterParamsActions {
-    readonly setCategory: (category: Category) => void
-    readonly setDirection: (direction: Direction) => void
-    readonly setFormat: (format: Format) => void
-    readonly setLevel: (level: Level) => void
-    readonly setQuery: (query: string) => void
-    readonly setPage: (page: number) => void
-    readonly reset: () => void
-}
-
-export type FilterParamsService = FilterParamsState & FilterParamsActions
-
-const FilterParamsContext = React.createContext<FilterParamsService>(filterParams)
+const { FilterParamsContext } = myContainer
 
 export const FilterParamsProvider = ({ children }: FilterParamsType) => {
-    const service: FilterParamsState & FilterParamsActions = filterParams
+    const service = useFilterParamsService()
     return (
         <FilterParamsContext.Provider value={service}>
             {children}

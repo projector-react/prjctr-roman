@@ -1,25 +1,14 @@
 import React, { useContext, ReactNode } from "react"
-import { filterResult } from "../composition-root";
-import { SearchResult } from "../types/filter";
+import { myContainer } from "../composition-root";
 
 type FilterResultType = {
     children: ReactNode;
 };
 
-export interface FilterResultState {
-    readonly result: SearchResult;
-}
-
-export interface FilterResultActions {
-    readonly setResult: (result: SearchResult) => void
-}
-
-export type FilterResultService = FilterResultState & FilterResultActions
-
-const FilterResultContext = React.createContext<FilterResultService>(filterResult)
+const { FilterResultContext } = myContainer
 
 export const FilterResultProvider = ({ children }: FilterResultType) => {
-    const service: FilterResultState & FilterResultActions = filterResult
+    const service = useFilterResultService()
     return (
         <FilterResultContext.Provider value={service}>
             {children}

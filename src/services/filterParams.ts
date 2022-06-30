@@ -1,6 +1,26 @@
 import { makeAutoObservable } from "mobx";
 import { Category, Direction, Format, Level } from "../types/filter";
-import { FilterParamsService } from "../contexts/filterParams";
+
+export interface FilterParamsState {
+    readonly category: Category,
+    readonly direction: Direction,
+    readonly format: Format,
+    readonly level: Level,
+    readonly query: string,
+    readonly page: number
+}
+
+export interface FilterParamsActions {
+    readonly setCategory: (category: Category) => void
+    readonly setDirection: (direction: Direction) => void
+    readonly setFormat: (format: Format) => void
+    readonly setLevel: (level: Level) => void
+    readonly setQuery: (query: string) => void
+    readonly setPage: (page: number) => void
+    readonly reset: () => void
+}
+
+export type FilterParamsService = FilterParamsState & FilterParamsActions
 
 export default class FilterParams implements FilterParamsService {
     category: Category = Category.ALL

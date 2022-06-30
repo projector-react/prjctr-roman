@@ -1,9 +1,14 @@
 import { makeObservable, observable, reaction, action } from "mobx";
-import { SearchResult } from "../types/filter";
 
-import { FilterService } from "../contexts/filter";
-import { FilterParamsState } from "../contexts/filterParams";
-import { FilterResultActions } from "../contexts/filterResult";
+import { FilterParamsState } from "./filterParams";
+import { FilterResultActions, SearchResult } from "./filterResult";
+
+export interface FilterService {
+    filterParamsState: FilterParamsState
+    filterResultActions: FilterResultActions
+
+    readonly filter: () => Promise<void>
+}
 
 export default class Filter implements FilterService {
     filterParamsState;
@@ -44,9 +49,9 @@ export default class Filter implements FilterService {
                     resolve({
                         data: [`Video Id ${100 * Math.random()}`, `Video Id ${100 * Math.random()}`, `Video Id ${100 * Math.random()}`],
                         totalCount: 1
-                    } as SearchResult),
+                    }),
                 1500
             );
-        }).then((value: SearchResult) => this.filterResultActions.setResult(value));
+        }).then((value) => this.filterResultActions.setResult(value));
     };
 }

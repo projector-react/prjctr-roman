@@ -4,19 +4,18 @@ import { observer } from "mobx-react";
 import { FilterView } from "./FilterView";
 import { VideoView } from "./VideoView";
 
-import { FilterParamsProvider, useFilterParamsService } from "../../contexts/filterParams";
-import { FilterResultProvider, useFilterResultService } from "../../contexts/filterResult";
+// import { FilterParamsProvider } from "../../contexts/filterParams";
+// import { FilterResultProvider } from "../../contexts/filterResult";
 
 export const Library = observer(() => {
-    const { result } = useFilterResultService()
-    const filterParams = useFilterParamsService()
-
     return (
-        <FilterParamsProvider>
-            <FilterResultProvider>
-                <FilterView {...filterParams} />
-                <VideoView {...result} />
-            </FilterResultProvider>
-        </FilterParamsProvider>
+        <>
+            {/*<FilterParamsProvider>*/}
+                <FilterView />
+            {/*</FilterParamsProvider>*/}
+            {/*<FilterResultProvider>*/}
+                <VideoView />
+            {/*</FilterResultProvider>*/}
+        </>
     );
 })

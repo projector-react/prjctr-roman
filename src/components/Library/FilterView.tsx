@@ -1,22 +1,23 @@
 import React from 'react';
 import { Category, Direction, Format, Level } from "../../types/filter";
-import { FilterParamsService } from "../../contexts/filterParams";
+import { useFilterParamsService } from "../../contexts/filterParams";
 
-export const FilterView = ({
-       category,
-       direction,
-       level,
-       format,
-       query,
-       page,
-       setCategory,
-       setDirection,
-       setQuery,
-       setFormat,
-       setLevel,
-       setPage,
-       reset
-   }: FilterParamsService) => {
+export const FilterView = () => {
+    const {
+        category,
+        direction,
+        level,
+        format,
+        query,
+        page,
+        setCategory,
+        setDirection,
+        setQuery,
+        setFormat,
+        setLevel,
+        setPage,
+        reset
+    } = useFilterParamsService()
 
     const categories: [string, Category][] = React.useMemo(() => Object.entries(Category), [Category])
     const directions: [string, Direction][] = React.useMemo(() => Object.entries(Direction), [Direction])

@@ -1,7 +1,19 @@
 import { makeObservable, observable, action } from "mobx";
-import { SearchResult } from "../types/filter";
 
-import { FilterResultService } from "../contexts/filterResult";
+export interface SearchResult {
+    readonly data: string[]
+    readonly totalCount: number
+}
+
+export interface FilterResultState {
+    readonly result: SearchResult;
+}
+
+export interface FilterResultActions {
+    readonly setResult: (result: SearchResult) => void
+}
+
+export type FilterResultService = FilterResultState & FilterResultActions
 
 export default class FilterResult implements FilterResultService {
     result = {
