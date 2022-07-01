@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
-import { myContainer } from "../../composition-root";
-// import { useFilterResultService } from "../../contexts/filterResult";
+import React from "react";
+import { useDiContainer } from "../../di-container";
 
 export const VideoView = () => {
     // const { result } = useFilterResultService()
-    const { filterResult } = useContext(myContainer.AppContext)
+    const { filterResult } = useDiContainer()
 
     return (
         <div>

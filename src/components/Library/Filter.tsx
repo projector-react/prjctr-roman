@@ -5,9 +5,9 @@ import {
     // Format,
     // Level
 } from "../../types/filter";
-import { useFilterParamsService } from "../../contexts/filterParams";
 import { CategorySelector } from "./CategorySelector";
 import { DirectionSelector } from "./DirectionSelector";
+import { useDiContainer } from "../../di-container";
 
 export interface FilterSelectorFc<V> {
     item: V;
@@ -16,6 +16,7 @@ export interface FilterSelectorFc<V> {
 }
 
 export const Filter = () => {
+    const { filterParams } = useDiContainer();
     const {
         category,
         direction,
@@ -30,7 +31,7 @@ export const Filter = () => {
         // setLevel,
         // setPage,
         // reset
-    } = useFilterParamsService()
+    } = filterParams
 
     const categories: [string, Category][] = React.useMemo(() => Object.entries(Category), [Category])
     const directions: [string, Direction][] = React.useMemo(() => Object.entries(Direction), [Direction])
