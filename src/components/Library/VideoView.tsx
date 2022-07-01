@@ -1,5 +1,5 @@
 import React from "react";
-import { useDiContainer } from "../../di-container";
+import { useDiContainer } from "../../di-container-context";
 
 export const VideoView = () => {
     // const { result } = useFilterResultService()

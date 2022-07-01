@@ -1,12 +1,12 @@
 import React from 'react';
 import { container } from "./composition-root";
 import { Library } from "./components/Library/Library";
-import { DiContainer } from './di-container';
+import { DiContainerContext } from './di-container-context';
 
 export const App: React.FC = () => {
     return (
-        <DiContainer.Provider value={container}>
+        <DiContainerContext.Provider value={container}>
             <Library />
-        </DiContainer.Provider>
+        </DiContainerContext.Provider>
     );
 };

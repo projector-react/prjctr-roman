@@ -7,7 +7,7 @@ import {
 } from "../../types/filter";
 import { CategorySelector } from "./CategorySelector";
 import { DirectionSelector } from "./DirectionSelector";
-import { useDiContainer } from "../../di-container";
+import { useDiContainer } from "../../di-container-context";
 
 export interface FilterSelectorFc<V> {
     item: V;
