@@ -1,5 +1,5 @@
 import React from "react";
-import { makeObservable, observable, reaction, action } from "mobx";
+import { action, makeObservable, observable, observe } from "mobx";
 
 import { FilterParamsState } from "./filterParams";
 import { FilterResultActions, SearchResult } from "./filterResult";
@@ -11,13 +11,18 @@ export interface FilterService {
     readonly filter: () => Promise<void>
 }
 
+interface Disposable {
+  dispose: () => void;
+}
+
 export function createFilterContext (filterService: FilterService) {
     return React.createContext(filterService)
 }
 
-export default class Filter implements FilterService {
+export default class Filter implements FilterService, Disposable {
     filterParamsState;
     filterResultActions;
+    disposer;
 
     constructor (
         filterParamsState: FilterParamsState,
@@ -32,19 +37,9 @@ export default class Filter implements FilterService {
             filter: action,
         })
 
-        reaction(
-            () => [
-                this.filterParamsState.category,
-                this.filterParamsState.direction,
-                this.filterParamsState.format,
-                this.filterParamsState.level,
-                this.filterParamsState.query,
-                this.filterParamsState.page
-            ],
-            () => {
-                this.filter()
-            }
-        )
+        this.disposer = observe(filterParamsState.state, () => {
+            this.filter()
+        })
     }
 
     filter = async () => {
@@ -59,4 +54,8 @@ export default class Filter implements FilterService {
             );
         }).then((value) => this.filterResultActions.setResult(value));
     };
+
+    dispose () {
+        this.disposer()
+    }
 }
