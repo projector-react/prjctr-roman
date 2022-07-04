@@ -1,14 +1,9 @@
-import React, { useContext } from "react";
-import { myContainer } from "../../composition-root";
-// import { useFilterResultService } from "../../contexts/filterResult";
+import React  from "react";
 
-export const VideoView = () => {
-    // const { result } = useFilterResultService()
-    const { filterResult } = useContext(myContainer.AppContext)
-
+export const VideoView = (result: string[]) => {
     return (
         <div>
-            Video Search State: {Object.values(filterResult.result).join(', ')}
+            Video Search State: {Object.values(result).join(', ')}
         </div>
     );
 };

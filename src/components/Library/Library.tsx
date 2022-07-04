@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 
 import { Filter } from "./Filter";
-import { VideoView } from "./VideoView";
+import { Video } from "./Video";
 
 import { FilterParamsProvider } from "../../contexts/filterParams";
 import { FilterResultProvider } from "../../contexts/filterResult";
@@ -14,7 +14,7 @@ export const Library = observer(() => {
                 <Filter />
             </FilterParamsProvider>
             <FilterResultProvider>
-                <VideoView />
+                <Video />
             </FilterResultProvider>
         </>
     );

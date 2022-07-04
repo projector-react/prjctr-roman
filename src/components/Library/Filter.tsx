@@ -2,52 +2,62 @@ import React from 'react';
 import {
     Category,
     Direction,
-    // Format,
-    // Level
+    Format,
+    Level
 } from "../../types/filter";
-import { useFilterParamsService } from "../../contexts/filterParams";
-import { CategorySelector } from "./CategorySelector";
-import { DirectionSelector } from "./DirectionSelector";
 
-export interface FilterSelectorFc<V> {
-    item: V;
-    items: [string, V][];
-    onInput: (props: V) => void
+import { useFilterParamsService } from "../../contexts/filterParams";
+import { FilterSelector } from "./FilterSelector";
+
+export interface FilterSelectorFc {
+    item: string;
+    items: string[];
+    onInput: (props: string) => void
 }
 
 export const Filter = () => {
     const {
-        category,
-        direction,
-        // level,
-        // format,
-        // query,
-        // page,
+        state,
         setCategory,
         setDirection,
+        setLevel,
+        setFormat,
         // setQuery,
-        // setFormat,
-        // setLevel,
         // setPage,
         // reset
     } = useFilterParamsService()
+    function getMemoMapEnum<V> (EnumType: V) {
+        return React.useMemo(() => {
+            return (Object.keys(EnumType) as Array<keyof typeof EnumType>).map((key) => EnumType[key])
+        },[EnumType])
+    }
 
-    const categories: [string, Category][] = React.useMemo(() => Object.entries(Category), [Category])
-    const directions: [string, Direction][] = React.useMemo(() => Object.entries(Direction), [Direction])
-    // const formats: [string, Format][] = React.useMemo(() => Object.entries(Format), [Format])
-    // const levels: [string, Level][] = React.useMemo(() => Object.entries(Level), [Level])
+    const categories: Category[] = getMemoMapEnum<typeof Category>(Category)
+    const directions: Direction[] = getMemoMapEnum<typeof Direction>(Direction)
+    const formats: Format[] = getMemoMapEnum<typeof Format>(Format)
+    const levels: Level[] = getMemoMapEnum<typeof Level>(Level)
 
     return (
         <div>
-            <CategorySelector
-                item={category}
+            <FilterSelector
+                item={state.category}
                 items={categories}
-                onInput={setCategory}
+                onInput={value => setCategory(value as Category)}
             />
-            <DirectionSelector
-                item={direction}
+            <FilterSelector
+                item={state.direction}
                 items={directions}
-                onInput={setDirection}
+                onInput={value => setDirection(value as Direction)}
+            />
+            <FilterSelector
+                item={state.format}
+                items={formats}
+                onInput={value => setFormat(value as Format)}
+            />
+            <FilterSelector
+                item={state.level}
+                items={levels}
+                onInput={value => setLevel(value as Level)}
             />
         </div>
     );
