@@ -1,4 +1,3 @@
-import React from "react";
 import { makeObservable, observable, action } from "mobx";
 
 export interface SearchResult {
@@ -16,9 +15,6 @@ export interface FilterResultActions {
 
 export type FilterResultService = FilterResultState & FilterResultActions
 
-export function createFilterResultContext (filterResultService: FilterResultService) {
-    return React.createContext(filterResultService)
-}
 
 export default class FilterResult implements FilterResultService {
     result = {

@@ -5,8 +5,8 @@ import {
     Format,
     Level
 } from "../../types/filter";
+import { useDiContainer } from "../../di-container-context";
 
-import { useFilterParamsService } from "../../contexts/filterParams";
 import { FilterSelector } from "./FilterSelector";
 
 export interface FilterSelectorFc {
@@ -16,16 +16,18 @@ export interface FilterSelectorFc {
 }
 
 export const Filter = () => {
+    const { filterParams } = useDiContainer();
     const {
         state,
         setCategory,
         setDirection,
-        setLevel,
         setFormat,
+        setLevel,
         // setQuery,
         // setPage,
         // reset
-    } = useFilterParamsService()
+    } = filterParams
+
     function getMemoMapEnum<V> (EnumType: V) {
         return React.useMemo(() => {
             return (Object.keys(EnumType) as Array<keyof typeof EnumType>).map((key) => EnumType[key])

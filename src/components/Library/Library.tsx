@@ -1,21 +1,13 @@
 import React from "react";
-import { observer } from "mobx-react";
 
 import { Filter } from "./Filter";
-import { Video } from "./Video";
+import { VideoView } from "./VideoView";
 
-import { FilterParamsProvider } from "../../contexts/filterParams";
-import { FilterResultProvider } from "../../contexts/filterResult";
-
-export const Library = observer(() => {
+export const Library = () => {
     return (
-        <>
-            <FilterParamsProvider>
-                <Filter />
-            </FilterParamsProvider>
-            <FilterResultProvider>
-                <Video />
-            </FilterResultProvider>
+         <>
+            <Filter />
+            <VideoView />
         </>
     );
-})
+}
