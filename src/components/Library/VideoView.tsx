@@ -1,12 +1,10 @@
 import React from "react";
-import { useDiContainer } from "../../di-container-context";
 
-export const VideoView = () => {
-    const { filterResult } = useDiContainer()
+export const VideoView = (result: string[]) => {
 
     return (
         <div>
-            Video Search State: {Object.values(filterResult.result).join(', ')}
+            Video Search State: {Object.values(result).join(', ')}
         </div>
     );
 };

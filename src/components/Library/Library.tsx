@@ -1,13 +1,13 @@
 import React from "react";
 
 import { Filter } from "./Filter";
-import { VideoView } from "./VideoView";
+import { Video } from "./Video";
 
 export const Library = () => {
     return (
          <>
             <Filter />
-            <VideoView />
+            <Video />
         </>
     );
 }

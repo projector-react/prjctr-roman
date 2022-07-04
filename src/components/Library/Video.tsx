@@ -1,9 +1,10 @@
 import React  from "react";
-import { useFilterResultService } from "../../contexts/filterResult";
 import { VideoView } from "./VideoView";
+import { useDiContainer } from "../../di-container-context";
 
 export const Video = () => {
-    const { result } = useFilterResultService()
+    const { filterResult } = useDiContainer();
+    const { result } = filterResult
 
     return (
         <VideoView {...result.data} />
