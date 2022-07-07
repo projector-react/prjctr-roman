@@ -28,7 +28,8 @@ export enum Format {
     VIDEO_LESSON = 'VIDEO_LESSON',
     CONFERENCE = 'CONFERENCE',
     TUTORIAL = 'TUTORIAL',
-    INTERVIEW = 'INTERVIEW'
+    INTERVIEW = 'INTERVIEW',
+    PLAYLIST = 'PLAYLIST',
 }
 
 export enum Level {

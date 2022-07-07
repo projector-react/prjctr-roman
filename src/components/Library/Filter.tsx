@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from "mobx-react";
 import {
     Category,
     Direction,
@@ -6,17 +7,13 @@ import {
     Level
 } from "../../types/filter";
 import { useDiContainer } from "../../di-container-context";
+import { useUIList } from "../../contexts/lists";
 
 import { FilterSelector } from "./FilterSelector";
 
-export interface FilterSelectorFc {
-    item: string;
-    items: string[];
-    onInput: (props: string) => void
-}
-
-export const Filter = () => {
+export const Filter = observer(() => {
     const { filterParams } = useDiContainer();
+    const { categories, directions, formats, levels } = useUIList()
     const {
         state,
         setCategory,
@@ -28,40 +25,29 @@ export const Filter = () => {
         // reset
     } = filterParams
 
-    function getMemoMapEnum<V> (EnumType: V) {
-        return React.useMemo(() => {
-            return (Object.keys(EnumType) as Array<keyof typeof EnumType>).map((key) => EnumType[key])
-        },[EnumType])
-    }
-
-    const categories: Category[] = getMemoMapEnum<typeof Category>(Category)
-    const directions: Direction[] = getMemoMapEnum<typeof Direction>(Direction)
-    const formats: Format[] = getMemoMapEnum<typeof Format>(Format)
-    const levels: Level[] = getMemoMapEnum<typeof Level>(Level)
-
     return (
         <div>
             <FilterSelector
-                item={state.category}
-                items={categories}
+                selectorValue={state.category}
+                selectorList={categories}
                 onInput={value => setCategory(value as Category)}
             />
             <FilterSelector
-                item={state.direction}
-                items={directions}
+                selectorValue={state.direction}
+                selectorList={directions}
                 onInput={value => setDirection(value as Direction)}
             />
             <FilterSelector
-                item={state.format}
-                items={formats}
+                selectorValue={state.format}
+                selectorList={formats}
                 onInput={value => setFormat(value as Format)}
             />
             <FilterSelector
-                item={state.level}
-                items={levels}
+                selectorValue={state.level}
+                selectorList={levels}
                 onInput={value => setLevel(value as Level)}
             />
         </div>
     );
-};
+});
 
