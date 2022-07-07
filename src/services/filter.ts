@@ -1,5 +1,4 @@
-import React from "react";
-import { action, makeObservable, observable, observe } from "mobx";
+import { observe } from "mobx";
 
 import { FilterParamsState } from "./filterParams";
 import { FilterResultActions, SearchResult } from "./filterResult";
@@ -15,10 +14,6 @@ interface Disposable {
   dispose: () => void;
 }
 
-export function createFilterContext (filterService: FilterService) {
-    return React.createContext(filterService)
-}
-
 export default class Filter implements FilterService, Disposable {
     filterParamsState;
     filterResultActions;
@@ -32,12 +27,7 @@ export default class Filter implements FilterService, Disposable {
         this.filterParamsState = filterParamsState
         this.filterResultActions = filterResultActions
 
-        makeObservable(this, {
-            filterParamsState: observable,
-            filter: action,
-        })
-
-        this.disposer = observe(filterParamsState.state, () => {
+        this.disposer = observe(filterParamsState, 'state', () => {
             this.filter()
         })
     }

@@ -1,4 +1,4 @@
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable } from "mobx";
 
 export interface SearchResult {
     readonly data: string[]
@@ -24,9 +24,7 @@ export default class FilterResult implements FilterResultService {
 
     constructor() {
         makeObservable(this, {
-            result: observable,
-            setResult: action,
-            reset: action
+            result: observable
         });
     }
 
