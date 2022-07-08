@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { container } from "./composition-root";
+import { Library } from "./components/Library/Library";
+import { DiContainerContext } from './di-container-context';
+import { ListsProvider } from "./contexts/lists";
 
 export const App: React.FC = () => {
-    const [name, setName] = useState('worlddd');
     return (
-        <>
-            <input value={name} onChange={e => setName(e.target.value)} />
-            <h1>Hello, {name}!</h1>
-        </>
+        <DiContainerContext.Provider value={container}>
+            <ListsProvider>
+                <Library />
+            </ListsProvider>
+        </DiContainerContext.Provider>
     );
 };
