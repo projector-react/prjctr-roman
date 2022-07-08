@@ -1,5 +1,6 @@
 import { makeObservable, observable } from "mobx";
 import { Category, Direction, Format, Level } from "../types/filter";
+import { injectable } from "inversify";
 
 export interface FilterParamsProps {
     readonly category: Category,
@@ -26,6 +27,7 @@ export interface FilterParamsActions {
 
 export type FilterParamsService = FilterParamsState & FilterParamsActions
 
+@injectable()
 export default class FilterParams implements FilterParamsService {
     state = {
         category: Category.ALL,
