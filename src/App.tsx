@@ -1,5 +1,5 @@
 import React from 'react';
-import { Library } from "./components/Library/Library";
+import { Library } from "./components/VideoLibrary/Library";
 import { ListsProvider } from "./contexts/lists";
 
 import withProvider from './components/HOC/Provider';
@@ -12,4 +12,11 @@ const App: React.FC = () => {
         </ListsProvider>
     );
 };
-export const AppWrapper = withProvider(App, diContainer)
+
+const Wrapped = withProvider(App, diContainer)
+
+export const AppWrapper: React.FC = () => {
+    return <Wrapped />
+}
+
+

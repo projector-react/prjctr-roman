@@ -1,6 +1,9 @@
-import { VideoView } from "./VideoView";
+import React from "react";
+
 import { Dependence, diInject } from "../../HOC";
 import { TYPES } from "../../../constants";
+
+import { VideoView } from "./VideoView";
 
 interface SearchResult {
     readonly data: string[]
@@ -23,6 +26,8 @@ export const createVideoViewModel = (filterResult: FilterResultService) => {
     }
 }
 
-export const Video = diInject(VideoView, {
-    videoViewModelProps: new Dependence(TYPES.videoViewModel)
+const VideoInjected = diInject(VideoView, {
+    videoViewModel: new Dependence(TYPES.videoViewModel)
 })
+
+export const Video = () => <VideoInjected />

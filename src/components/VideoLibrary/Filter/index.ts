@@ -45,5 +45,5 @@ export const createFilterViewModel = (
 }
 
 export const Filter = diInject(FilterView, {
-    filterParams: new Dependence(TYPES.filterParams)
+    filterViewModel: new Dependence(TYPES.filterViewModel)
 })
