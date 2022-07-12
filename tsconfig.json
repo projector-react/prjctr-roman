@@ -1,8 +1,15 @@
 {
     "extends": "./.dev/tsconfig.json",
     "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "types": ["reflect-metadata"],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "lib": [
-            "DOM"
+            "DOM",
+            "ES2017"
         ],
       "jsx": "react"
     },

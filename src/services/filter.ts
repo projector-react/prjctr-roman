@@ -1,11 +1,14 @@
+import { inject, injectable } from "inversify";
 import { observe } from "mobx";
 
-import { FilterParamsState } from "./filterParams";
-import { FilterResultActions, SearchResult } from "./filterResult";
+import type { FilterParamsService } from "./filterParams";
+import type { FilterResultService, SearchResult } from "./filterResult";
+
+import { TYPES } from '../constants'
 
 export interface FilterService {
-    filterParamsState: FilterParamsState
-    filterResultActions: FilterResultActions
+    filterParamsState: FilterParamsService
+    filterResultActions: FilterResultService
 
     readonly filter: () => Promise<void>
 }
@@ -14,15 +17,16 @@ interface Disposable {
   dispose: () => void;
 }
 
+@injectable()
 export default class Filter implements FilterService, Disposable {
+
     filterParamsState;
     filterResultActions;
     disposer;
 
     constructor (
-        filterParamsState: FilterParamsState,
-        filterResultActions: FilterResultActions,
-
+        @inject(TYPES.filterParams) filterParamsState: FilterParamsService,
+        @inject(TYPES.filterResult) filterResultActions: FilterResultService,
     ) {
         this.filterParamsState = filterParamsState
         this.filterResultActions = filterResultActions

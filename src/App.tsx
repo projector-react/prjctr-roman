@@ -1,15 +1,22 @@
 import React from 'react';
-import { container } from "./composition-root";
-import { Library } from "./components/Library/Library";
-import { DiContainerContext } from './di-container-context';
+import { Library } from "./components/VideoLibrary/Library";
 import { ListsProvider } from "./contexts/lists";
 
-export const App: React.FC = () => {
+import withProvider from './components/HOC/Provider';
+import diContainer from './di-container'
+
+const App: React.FC = () => {
     return (
-        <DiContainerContext.Provider value={container}>
-            <ListsProvider>
-                <Library />
-            </ListsProvider>
-        </DiContainerContext.Provider>
+        <ListsProvider>
+            <Library />
+        </ListsProvider>
     );
 };
+
+const Wrapped = withProvider(App, diContainer)
+
+export const AppWrapper: React.FC = () => {
+    return <Wrapped />
+}
+
+

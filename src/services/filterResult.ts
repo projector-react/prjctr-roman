@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import { makeObservable, observable } from "mobx";
 
 export interface SearchResult {
@@ -15,7 +16,7 @@ export interface FilterResultActions {
 
 export type FilterResultService = FilterResultState & FilterResultActions
 
-
+@injectable()
 export default class FilterResult implements FilterResultService {
     result = {
         data: [],

@@ -1,3 +1,4 @@
+import { ComponentType } from 'react';
 import { Category, Direction, Format, Level } from "../types/filter";
 
 export function getCategoryTitle (category: Category) {
@@ -104,3 +105,7 @@ export const levels = getMapEnum([
     Level.BEGINNER,
     Level.SPECIALIST
 ], getLevelTitle)
+
+export function getDisplayName<T>(WrappedComponent: ComponentType<T>) {
+    return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+}
