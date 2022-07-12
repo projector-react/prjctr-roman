@@ -1,5 +1,8 @@
 import { Container, interfaces } from 'inversify';
 
+import { ApiService } from "./services/api/api";
+import type { IApiService } from "./services/api/api";
+
 import FilterParams from "./services/filterParams";
 import type { FilterParamsService } from "./services/filterParams";
 
@@ -15,6 +18,8 @@ import { createFilterViewModel } from "./components/VideoLibrary/Filter";
 import { createVideoViewModel } from "./components/VideoLibrary/Video";
 
 const container: interfaces.Container = new Container();
+
+container.bind<IApiService>(TYPES.apiService).to(ApiService)
 
 container.bind<FilterParamsService>(TYPES.filterParams).to(FilterParams).inSingletonScope()
 container.bind(TYPES.filterViewModel).toDynamicValue(({ container }) => createFilterViewModel(container.get(TYPES.filterParams)))
