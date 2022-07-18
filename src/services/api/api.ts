@@ -3,8 +3,8 @@ import { inject, injectable } from "inversify";
 import { TYPES } from "../../constants";
 
 export type ApiGet = <R, C = void>(path: string, config?: C) => Promise<R>
-export type ApiPost = <D, R = void, C = void>(path: string, data?: D, config?: C) => Promise<R>
-export type ApiPut = <D, R = void, C = void>(path: string, data?: D, config?: C) => Promise<R>
+export type ApiPost = <D, R = void, C = {}>(path: string, data?: D, config?: C) => Promise<R>
+export type ApiPut = <D, R = void, C = {}>(path: string, data?: D, config?: C) => Promise<R>
 export type ApiDelete = <R, C>(path: string, config?: C) => Promise<R>
 
 export interface IApiService {
