@@ -28,16 +28,21 @@ import { TYPES } from './constants'
 
 import { createFilterViewModel } from "./components/VideoLibrary/Filter";
 import { createVideoViewModel } from "./components/VideoLibrary/Video";
+import { createAuthViewModel } from "./components/Auth";
+import { createAxiosInstance } from "./services/api/create-axios-instance";
 
 const container: interfaces.Container = new Container();
 
-container.bind<IApiService>(TYPES.apiService).to(ApiService)
+container.bind(TYPES.axiosInstance).toDynamicValue(() => createAxiosInstance())
+container.bind<IApiService>(TYPES.apiService).to(ApiService).inSingletonScope()
 
-container.bind<IAuthService>(TYPES.authService).to(AuthService)
-container.bind<IUserAuthService>(TYPES.userAuthService).to(UserAuthService)
+container.bind<IAuthService>(TYPES.authService).to(AuthService).inSingletonScope()
+container.bind<IUserAuthService>(TYPES.userAuthService).to(UserAuthService).inSingletonScope()
 
-container.bind<ISignUpService>(TYPES.signUpService).to(SignUpService)
-container.bind<ISignInService>(TYPES.signInService).to(SignInService)
+container.bind<ISignUpService>(TYPES.signUpService).to(SignUpService).inSingletonScope()
+container.bind<ISignInService>(TYPES.signInService).to(SignInService).inSingletonScope()
+
+container.bind(TYPES.authViewModel).toDynamicValue(({ container }) => createAuthViewModel(container.get(TYPES.authService), container.get(TYPES.userAuthService), container.get(TYPES.signUpService), container.get(TYPES.signInService)))
 
 container.bind<FilterParamsService>(TYPES.filterParams).to(FilterParams).inSingletonScope()
 container.bind(TYPES.filterViewModel).toDynamicValue(({ container }) => createFilterViewModel(container.get(TYPES.filterParams)))
@@ -45,6 +50,6 @@ container.bind(TYPES.filterViewModel).toDynamicValue(({ container }) => createFi
 container.bind<FilterResultService>(TYPES.filterResult).to(FilterResult).inSingletonScope()
 container.bind(TYPES.videoViewModel).toDynamicValue(({ container }) => createVideoViewModel(container.get(TYPES.filterResult)))
 
-container.bind<FilterService>(TYPES.filterService).to(Filter)
+container.bind<FilterService>(TYPES.filterService).to(Filter).inSingletonScope()
 
 export default container;
