@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../constants";
-import { IUserAuthService, User } from "./user";
+import { IUserAuthService } from "./user";
 import { IAuthService } from "./auth";
 
 interface LoginProps {
-    email: string
+    username: string
     password: string
 }
 
@@ -27,15 +27,15 @@ export class SignInService implements ISignInService {
     }
 
     async login (props: LoginProps): Promise<void> {
-        const user: User = await this.authService.login(props)
+        await this.authService.login(props)
 
-        if (!user) {
-            throw Error('Bad username or password')
-        }
-        this.userService.setState({ isLoggedIn: true, user })
+        const user = await this.userService.fetchUser()
+        this.userService.setState({ isLoggedIn: true, user})
     }
 
-    logout (): void {
-        this.authService.logout()
+    async logout (): Promise<void> {
+        await this.authService.logout()
+        this.userService.setState({ isLoggedIn: false })
+
     }
 }

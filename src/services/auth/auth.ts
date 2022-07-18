@@ -2,30 +2,28 @@ import { TYPES } from "../../constants";
 import { inject, injectable } from "inversify";
 import { User } from "./user";
 import { IApiService } from "../api/api";
+import { makeObservable, observable } from "mobx";
+
+interface AuthState {
+    errors: string[]
+}
 
 export type IAuthService = {
     apiService: IApiService
-} & ISignUpService & ISignInService
+    state: AuthState
+    readonly register: (props: RegistrationProps) => Promise<User | void>
+    readonly login: (props: RegistrationProps) => Promise<Tokens | void>
+    readonly logout: () => Promise<SuccessLogout | void>
+    refreshToken: () => Promise<Pick<Tokens, 'access_token'> | void>
+}
 
 interface RegistrationProps {
-    readonly lastName: string;
-    readonly firstName: string;
-    readonly email: string;
-    readonly phoneNumber: string;
+    readonly username: string;
+    readonly password: string;
 }
 
-interface ISignUpService {
-    readonly register: (props: RegistrationProps) => Promise<User>
-}
-
-interface LoginProps {
-    email: string
-    password: string
-}
-
-interface ISignInService {
-    readonly login: (props: LoginProps) => Promise<User>
-    readonly logout: () => Promise<void>
+interface SuccessLogout {
+    msg: string
 }
 
 export type Tokens = {
@@ -35,25 +33,66 @@ export type Tokens = {
 
 @injectable()
 export class AuthService implements IAuthService {
+    state: AuthState = {
+        errors: []
+    }
     apiService: IApiService
 
     constructor(@inject(TYPES.apiService) apiService: IApiService) {
+        makeObservable(this, {
+            state: observable
+        });
         this.apiService = apiService
+        this.refreshToken()
     }
 
-    async register (props: RegistrationProps): Promise<User> {
-        return this.apiService.post<RegistrationProps, User>('auth/register', props);
+    setErrorState (errMessage: string) {
+        const newErrors = this.state.errors
+        newErrors.push(errMessage)
+        this.state = {
+            ...this.state,
+            errors: newErrors
+        }
     }
 
-    async login (props: LoginProps): Promise<User> {
-        return this.apiService.post<LoginProps, User>('auth/login', props);
+    async register (props: RegistrationProps): Promise<User | void> {
+        try {
+            return await this.apiService.post<RegistrationProps, User>('/api/auth/register', props)
+        } catch (e) {
+            if (e instanceof Error) {
+                this.setErrorState(e.message)
+            }
+        }
     }
 
-    async logout (): Promise<void> {
-        return this.apiService.post('auth/logout')
+    async login (props: RegistrationProps): Promise<Tokens | void> {
+        try {
+            return await this.apiService.post<RegistrationProps, Tokens>('/api/auth/login', props);
+        } catch (e) {
+            if (e instanceof Error) {
+                this.setErrorState(e.message)
+            }
+        }
+
     }
 
-    async refreshToken (): Promise<Pick<Tokens, 'access_token'>> {
-        return this.apiService.post('auth/auth/refresh')
+    async logout (): Promise<SuccessLogout | void> {
+        try {
+            return this.apiService.post('/api/auth/logout')
+        } catch (e) {
+            if (e instanceof Error) {
+                this.setErrorState(e.message)
+            }
+        }
+    }
+
+    async refreshToken (): Promise<Pick<Tokens, 'access_token'> | void> {
+        try {
+            return this.apiService.post('/api/auth/refresh')
+        } catch (e) {
+            if (e instanceof Error) {
+                this.setErrorState(e.message)
+            }
+        }
     }
 }

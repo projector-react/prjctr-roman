@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../constants";
 import { IApiService } from "../api/api";
+import { makeObservable, observable } from "mobx";
 
 export interface User {
     readonly id: string;
@@ -24,30 +25,34 @@ export interface IUserAuthService {
     state: UserAuthState
     apiService: IApiService
 
-    getUser: () => User
+    init: () => Promise<void>
+    getUser: () => User | null
     setState: (state: UserAuthState) => void
     fetchUser: () => Promise<User>
 }
 
 @injectable()
 export class UserAuthService implements IUserAuthService {
-    state: UserAuthState
+    state: UserAuthState = { isLoggedIn: false }
     apiService: IApiService
 
     constructor(
         @inject(TYPES.apiService) apiService: IApiService
     ) {
-        this.state = {
-            isLoggedIn: false
-        }
+        makeObservable(this, {
+            state: observable
+        })
         this.apiService = apiService
+        this.init()
+    }
+
+    async init () {
+        const user = await this.fetchUser()
+        this.setState({ isLoggedIn: true, user})
     }
 
     getUser () {
-        if (!this.state.isLoggedIn) {
-            throw Error('You are unauthorized')
-        }
-        return this.state.user
+        return this.state.isLoggedIn ? this.state?.user : null
     }
 
     setState (state: UserAuthState) {

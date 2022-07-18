@@ -1,19 +1,17 @@
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../constants";
-import { IUserAuthService, User } from "./user";
+import { IUserAuthService } from "./user";
 import { IAuthService } from "./auth";
 
 interface RegistrationProps {
-    readonly lastName: string;
-    readonly firstName: string;
-    readonly email: string;
-    readonly phoneNumber: string;
+    readonly username: string;
+    readonly password: string;
 }
 
 export interface ISignUpService {
     authService: IAuthService
     userService: IUserAuthService
-    readonly registerUser: (props: RegistrationProps) => Promise<void>
+    readonly register: (props: RegistrationProps) => Promise<void>
 }
 
 @injectable()
@@ -29,11 +27,10 @@ export class SignUpService implements ISignUpService {
         this.userService = userService
     }
 
-    async registerUser (props: RegistrationProps): Promise<void> {
-        const user: User = await this.authService.register(props)
-        if (!user) {
-            throw Error('Username already exist')
+    async register (props: RegistrationProps): Promise<void> {
+        const user = await this.authService.register(props)
+        if (user) {
+            this.userService.setState({ isLoggedIn: true, user })
         }
-        this.userService.setState({ isLoggedIn: true, user })
     }
 }
