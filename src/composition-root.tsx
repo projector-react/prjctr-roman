@@ -1,31 +1,33 @@
+import { interfaces } from 'inversify'
+
 import { createAxiosInstance } from "./services/api/create-axios-instance";
+import { ApiService } from "./services/api/api";
+import type { IApiService } from "./services/api/api";
+
 import FilterParams from "./services/filterParams";
+import type { FilterParamsService } from "./services/filterParams";
+
 import FilterResult from "./services/filterResult";
+import type { FilterResultService } from "./services/filterResult";
+
 import Filter from "./services/filter";
+import type { FilterService } from "./services/filter";
 
 import { createFilterViewModel } from "./components/VideoLibrary/Filter";
 import { createVideoViewModel } from "./components/VideoLibrary/Video";
-import { createLibraryViewModel } from "./components/VideoLibrary/Library";
-import { ApiService } from "./services/api/api";
 
+import { TYPES } from "./constants";
 
-const axiosInstance = createAxiosInstance()
-const apiService = new ApiService(axiosInstance)
+export default function createCompositionRoot (container: interfaces.Container) {
+    container.bind(TYPES.filterViewModel).toDynamicValue(() => createAxiosInstance())
+    container.bind<IApiService>(TYPES.apiService).to(ApiService)
 
-const filterParams = new FilterParams()
-const filterResult = new FilterResult()
-const filterService = new Filter(filterParams, filterResult)
+    container.bind<FilterParamsService>(TYPES.filterParams).to(FilterParams).inSingletonScope()
+    container.bind(TYPES.filterViewModel).toDynamicValue(({ container }) => createFilterViewModel(container.get(TYPES.filterParams)))
 
-const filterViewModel = createFilterViewModel(filterParams)
-const videoViewModel = createVideoViewModel(filterResult)
-const LibraryViewModel = createLibraryViewModel(filterService)
+    container.bind<FilterResultService>(TYPES.filterResult).to(FilterResult).inSingletonScope()
+    container.bind(TYPES.videoViewModel).toDynamicValue(({ container }) => createVideoViewModel(container.get(TYPES.filterResult)))
 
-export const container = {
-    apiService,
-    filterParams,
-    filterResult,
-    filterService,
-    filterViewModel,
-    videoViewModel,
-    LibraryViewModel
+    container.bind<FilterService>(TYPES.filterService).to(Filter)
+    return container
 }
