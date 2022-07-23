@@ -1,9 +1,11 @@
 import React from 'react';
+import { Container } from 'inversify'
+import createCompositionRoot from './composition-root'
 import { Library } from "./components/VideoLibrary/Library";
 import { ListsProvider } from "./contexts/lists";
 
 import withProvider from './components/HOC/Provider';
-import diContainer from './di-container'
+
 
 const App: React.FC = () => {
     return (
@@ -13,7 +15,7 @@ const App: React.FC = () => {
     );
 };
 
-const Wrapped = withProvider(App, diContainer)
+const Wrapped = withProvider(App, createCompositionRoot(new Container()))
 
 export const AppWrapper: React.FC = () => {
     return <Wrapped />
