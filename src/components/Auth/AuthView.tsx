@@ -5,16 +5,9 @@ interface RegistrationProps {
     password: string;
 }
 
-interface UserState {
-    isLoggedIn: boolean,
-    user: {
-        username: string
-    },
-}
-
 interface AuthViewProps {
     authViewModel: {
-        userState: UserState
+        isLoggedIn: boolean,
         login: (props: RegistrationProps) => Promise<void>,
     }
 }
@@ -26,7 +19,7 @@ export const AuthWrapper = ({ authViewModel }: AuthViewProps) => {
 
     return (
         <>
-            <h1>userState: {authViewModel.userState.user && Object.entries(authViewModel.userState).join('')}</h1>
+            <h1>isLoggedIn: {authViewModel.isLoggedIn ? 'Authenticated' : 'Unauthenticated'}</h1>
             <button onClick={login}>doLogin</button>
         </>
     );

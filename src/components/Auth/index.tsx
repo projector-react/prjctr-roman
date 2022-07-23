@@ -3,18 +3,18 @@ import { Dependence, diInject } from "../HOC";
 
 import { TYPES } from "../../constants";
 import { AuthWrapper } from "./AuthView";
-import { User } from "../../services/auth/user";
+import { Account } from "../../services/auth/account";
 
-type UserAuthState = {
+type AccountState = {
     readonly isLoggedIn: false;
 } |
     {
         readonly isLoggedIn: true;
-        readonly user: User;
+        readonly account: Account;
     }
 
-interface UserService {
-    state: UserAuthState
+interface AccountService {
+    state: AccountState
 }
 
 interface RegistrationProps {
@@ -27,11 +27,11 @@ interface SignInService {
 }
 
 export const createAuthViewModel = (
-    userService: UserService,
+    accountService: AccountService,
     signInService: SignInService
 ) => {
     return {
-        userState: userService.state,
+        isLoggedIn: accountService.state.isLoggedIn,
         login: signInService.login.bind(signInService)
     }
 }
