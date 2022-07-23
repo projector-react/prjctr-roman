@@ -5,43 +5,29 @@ interface RegistrationProps {
     password: string;
 }
 
+interface UserState {
+    isLoggedIn: boolean,
+    user: {
+        username: string
+    },
+}
+
 interface AuthViewProps {
     authViewModel: {
-        auth: {
-            state: {
-                errors: []
-            },
-            login: (props: RegistrationProps) => Promise<void>,
-        },
-        userState: {
-            isLoggedIn: boolean,
-            user: {
-                username: string
-            },
-        },
-        register: (props: RegistrationProps) => Promise<void>,
+        userState: UserState
         login: (props: RegistrationProps) => Promise<void>,
     }
 }
 
 export const AuthWrapper = ({ authViewModel }: AuthViewProps) => {
-    const register = () => {
-        authViewModel.register({ username: 'romantest', password: 'romatest' })
-    }
     const login = () => {
         authViewModel.login({ username: 'romantest', password: 'romatest' })
     }
 
     return (
         <>
-            <h1>isLoggedIn: {authViewModel.userState && Object.entries(authViewModel.userState).join('')}</h1>
-            <h1>user: {authViewModel.userState.user && Object.entries(authViewModel.userState.user).join('')}</h1>
-            <br/>
-            <hr/>
-            <br/>
-            <button onClick={register}>doRegister</button>
+            <h1>userState: {authViewModel.userState.user && Object.entries(authViewModel.userState).join('')}</h1>
             <button onClick={login}>doLogin</button>
-            <div className="">{authViewModel.auth.state.errors.join(', ')}</div>
         </>
     );
 };

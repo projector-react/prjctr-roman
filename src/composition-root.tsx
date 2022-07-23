@@ -38,7 +38,7 @@ export default function createCompositionRoot (container: interfaces.Container) 
     container.bind<ISignUpService>(TYPES.signUpService).to(SignUpService).inSingletonScope()
     container.bind<ISignInService>(TYPES.signInService).to(SignInService).inSingletonScope()
 
-    container.bind(TYPES.authViewModel).toDynamicValue(({ container }) => createAuthViewModel(container.get(TYPES.authService), container.get(TYPES.userAuthService), container.get(TYPES.signUpService), container.get(TYPES.signInService)))
+    container.bind(TYPES.authViewModel).toDynamicValue(({ container }) => createAuthViewModel(container.get(TYPES.userAuthService), container.get(TYPES.signInService)))
 
     container.bind<FilterParamsService>(TYPES.filterParams).to(FilterParams).inSingletonScope()
     container.bind(TYPES.filterViewModel).toDynamicValue(({ container }) => createFilterViewModel(container.get(TYPES.filterParams)))
