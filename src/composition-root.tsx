@@ -6,8 +6,8 @@ import type { IApiService } from "./services/api/api";
 
 import { AuthService } from "./services/auth/auth";
 import type { IAuthService } from "./services/auth/auth";
-import { UserAuthService } from "./services/auth/user";
-import type { IUserAuthService } from "./services/auth/user";
+import { AccountService } from "./services/auth/account";
+import type { IAccountService } from "./services/auth/account";
 import { SignUpService } from "./services/auth/signUp";
 import type { ISignUpService } from "./services/auth/signUp";
 import { SignInService } from "./services/auth/signIn";
@@ -33,12 +33,12 @@ export default function createCompositionRoot (container: interfaces.Container) 
     container.bind<IApiService>(TYPES.apiService).to(ApiService).inSingletonScope()
 
     container.bind<IAuthService>(TYPES.authService).to(AuthService).inSingletonScope()
-    container.bind<IUserAuthService>(TYPES.userAuthService).to(UserAuthService).inSingletonScope()
+    container.bind<IAccountService>(TYPES.accountService).to(AccountService).inSingletonScope()
 
     container.bind<ISignUpService>(TYPES.signUpService).to(SignUpService).inSingletonScope()
     container.bind<ISignInService>(TYPES.signInService).to(SignInService).inSingletonScope()
 
-    container.bind(TYPES.authViewModel).toDynamicValue(({ container }) => createAuthViewModel(container.get(TYPES.userAuthService), container.get(TYPES.signInService)))
+    container.bind(TYPES.authViewModel).toDynamicValue(({ container }) => createAuthViewModel(container.get(TYPES.accountService), container.get(TYPES.signInService)))
 
     container.bind<FilterParamsService>(TYPES.filterParams).to(FilterParams).inSingletonScope()
     container.bind(TYPES.filterViewModel).toDynamicValue(({ container }) => createFilterViewModel(container.get(TYPES.filterParams)))

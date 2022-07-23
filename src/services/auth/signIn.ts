@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../constants";
-import { IUserAuthService } from "./user";
+import { IAccountService } from "./account";
 import { IAuthService } from "./auth";
 
 interface LoginProps {
@@ -16,26 +16,26 @@ export interface ISignInService {
 @injectable()
 export class SignInService implements ISignInService {
     authService: IAuthService
-    userService: IUserAuthService
+    accountService: IAccountService
 
     constructor(
         @inject(TYPES.authService) authService: IAuthService,
-        @inject(TYPES.userAuthService) userService: IUserAuthService,
+        @inject(TYPES.accountService) accountService: IAccountService,
     ) {
         this.authService = authService
-        this.userService = userService
+        this.accountService = accountService
     }
 
     async login (props: LoginProps): Promise<void> {
         await this.authService.login(props)
 
-        const user = await this.userService.fetchUser()
-        this.userService.setState({ isLoggedIn: true, user})
+        const account = await this.accountService.fetchAccount()
+        this.accountService.setState({ isLoggedIn: true, account})
     }
 
     async logout (): Promise<void> {
         await this.authService.logout()
-        this.userService.setState({ isLoggedIn: false })
+        this.accountService.setState({ isLoggedIn: false })
 
     }
 }

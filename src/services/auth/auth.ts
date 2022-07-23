@@ -1,6 +1,6 @@
 import { TYPES } from "../../constants";
 import { inject, injectable } from "inversify";
-import { User } from "./user";
+import { Account } from "./account";
 import { IApiService } from "../api/api";
 import { makeObservable, observable } from "mobx";
 
@@ -11,7 +11,7 @@ interface AuthState {
 export type IAuthService = {
     apiService: IApiService
     state: AuthState
-    readonly register: (props: RegistrationProps) => Promise<User | void>
+    readonly register: (props: RegistrationProps) => Promise<Account | void>
     readonly login: (props: RegistrationProps) => Promise<Tokens | void>
     readonly logout: () => Promise<SuccessLogout | void>
     refreshToken: () => Promise<Pick<Tokens, 'access_token'> | void>
@@ -55,9 +55,9 @@ export class AuthService implements IAuthService {
         }
     }
 
-    async register (props: RegistrationProps): Promise<User | void> {
+    async register (props: RegistrationProps): Promise<Account | void> {
         try {
-            return await this.apiService.post<RegistrationProps, User>('/api/auth/register', props)
+            return await this.apiService.post<RegistrationProps, Account>('/api/auth/register', props)
         } catch (e) {
             if (e instanceof Error) {
                 this.setErrorState(e.message)

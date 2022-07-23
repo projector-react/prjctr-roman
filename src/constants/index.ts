@@ -5,7 +5,7 @@ export const TYPES = {
     signUpService: Symbol.for('signUpServiceKey'),
     authService: Symbol.for('authServiceKey'),
     authViewModel: Symbol.for('authViewModelKey'),
-    userAuthService: Symbol.for('userAuthServiceKey'),
+    accountService: Symbol.for('accountServiceKey'),
     filterParams: Symbol.for('filterParamsKey'),
     filterResult: Symbol.for('filterResultKey'),
     filterService: Symbol.for('filterServiceKey'),

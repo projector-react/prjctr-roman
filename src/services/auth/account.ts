@@ -3,7 +3,7 @@ import { TYPES } from "../../constants";
 import { IApiService } from "../api/api";
 import { makeObservable, observable } from "mobx";
 
-export interface User {
+export interface Account {
     readonly id: string;
     readonly lastName: string;
     readonly firstName: string;
@@ -13,27 +13,27 @@ export interface User {
     readonly subscribeExpireDate: Date | null;
 }
 
-type UserAuthState = {
+type AccountState = {
     readonly isLoggedIn: false;
 } |
     {
         readonly isLoggedIn: true;
-        readonly user: User;
+        readonly account: Account;
     }
 
-export interface IUserAuthService {
-    state: UserAuthState
+export interface IAccountService {
+    state: AccountState
     apiService: IApiService
 
     init: () => Promise<void>
-    getUser: () => User | null
-    setState: (state: UserAuthState) => void
-    fetchUser: () => Promise<User>
+    getAccount: () => Account | null
+    setState: (state: AccountState) => void
+    fetchAccount: () => Promise<Account>
 }
 
 @injectable()
-export class UserAuthService implements IUserAuthService {
-    state: UserAuthState = { isLoggedIn: false }
+export class AccountService implements IAccountService {
+    state: AccountState = { isLoggedIn: false }
     apiService: IApiService
 
     constructor(
@@ -47,19 +47,19 @@ export class UserAuthService implements IUserAuthService {
     }
 
     async init () {
-        const user = await this.fetchUser()
-        this.setState({ isLoggedIn: true, user})
+        const account = await this.fetchAccount()
+        this.setState({ isLoggedIn: true, account})
     }
 
-    getUser () {
-        return this.state.isLoggedIn ? this.state?.user : null
+    getAccount () {
+        return this.state.isLoggedIn ? this.state?.account : null
     }
 
-    setState (state: UserAuthState) {
+    setState (state: AccountState) {
         this.state = state
     }
 
-    async fetchUser () {
-        return this.apiService.get<User>('/me')
+    async fetchAccount () {
+        return this.apiService.get<Account>('/me')
     }
 }
